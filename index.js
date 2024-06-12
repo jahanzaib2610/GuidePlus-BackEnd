@@ -15,6 +15,14 @@ const cors = require('cors')
 const app = express();
 app.use(express.json())
 app.use(cors());
+
+
+// ============================================
+// server verification
+// ============================================
+app.get('/', (req, resp)=>{
+    resp.send('App is running')
+})
 // ============================================
 // Registration API
 // ============================================
