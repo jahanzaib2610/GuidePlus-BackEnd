@@ -11,7 +11,7 @@ const allTeams = require('./db/teamRegisterSchema')
 const teamSchedule = require('./db/scheduleSchema')
 const Announcement = require('./db/anouncementSchema')
 const cors = require('cors')
-
+const port = process.env.PORT || 5000;
 const app = express();
 app.use(express.json())
 app.use(cors());
@@ -424,4 +424,4 @@ app.delete('/deleteAnnouncement', async(req, resp) => {
     console.log(data);
     resp.send(data)
 })
-app.listen(5000)
+app.listen(port)
