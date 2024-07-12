@@ -45,14 +45,13 @@ app.post('/signup', async (req, resp) => {
 })
 
 // ============================================
-// Login API
+// Login APi
 // ============================================
 app.post('/login', async (req, resp) => {
 
     const { email, password } = req.body;
     try {
         let user = await User.findOne({ email });
-        // console.log(user);
         if (!user) {
             return resp.status(400).send({ message: 'User not found' });
         }
@@ -123,10 +122,16 @@ app.delete('/roomLocator/deleteRoom', async (req, resp) => {
 // FoundHub API to Add Post
 // ============================================
 app.post('/foundHub/addPost', async (req, resp) => {
-    let data = new foundHub(req.body)
-    data = await data.save()
-    resp.send(data)
-})
+    try {
+      let data = new foundHub(req.body);
+      data = await data.save();
+      console.log(data);
+      resp.status(201).json(data); // Send a 201 Created status with the JSON response
+    } catch (error) {
+      console.error('Error saving post:', error);
+      resp.status(500).json({ message: 'Internal Server Error', error: error.message }); // Send a 500 Internal Server Error status with an error message
+    }
+  });
 
 
 
@@ -424,4 +429,8 @@ app.delete('/deleteAnnouncement', async(req, resp) => {
     console.log(data);
     resp.send(data)
 })
-app.listen(port)
+
+
+app.listen(port, () => {
+    console.log(`App is running on port ${port}`);
+})

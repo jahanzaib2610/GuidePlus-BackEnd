@@ -8,10 +8,10 @@ const foundHubSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-        expires: 60
+        expires: 86400
     }
     
 })
-foundHubSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 });
+foundHubSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });
 
 module.exports = mongoose.model('foundhubs', foundHubSchema)
