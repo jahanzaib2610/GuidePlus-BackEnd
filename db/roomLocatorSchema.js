@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const roomSchema = new mongoose.Schema({
     roomNo:'string',
     description:'string',
-    imageURI:'string',
+    imageURL:'string',
     
 })
 

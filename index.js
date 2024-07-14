@@ -11,16 +11,18 @@ const allTeams = require('./db/teamRegisterSchema')
 const teamSchedule = require('./db/scheduleSchema')
 const Announcement = require('./db/anouncementSchema')
 const cors = require('cors')
-const port = process.env.PORT || 5000;
+const port = 5000;
 const app = express();
 app.use(express.json())
 app.use(cors());
 
 
+
+
 // ============================================
 // server verification
 // ============================================
-app.get('/', (req, resp)=>{
+app.get('/', (req, resp) => {
     resp.send('App is running')
 })
 // ============================================
@@ -75,6 +77,7 @@ app.post('/login', async (req, resp) => {
 // roomLocator insert API
 // ============================================
 app.post('/roomLocator/roomInsert', async (req, resp) => {
+    // console.log(req.body)
     let data = new Room(req.body);
     let result = await data.save()
     if (result) {
@@ -90,6 +93,7 @@ app.post('/roomLocator/roomInsert', async (req, resp) => {
 app.post('/roomLocator/searchRoom', async (req, resp) => {
     if (req.body.roomNo) {
         let data = await Room.findOne(req.body)
+        // console.log(data)
         if (data) {
             resp.send(data)
         }
@@ -121,18 +125,22 @@ app.delete('/roomLocator/deleteRoom', async (req, resp) => {
 // ============================================
 // FoundHub API to Add Post
 // ============================================
-app.post('/foundHub/addPost', async (req, resp) => {
-    try {
-      let data = new foundHub(req.body);
-      data = await data.save();
-      console.log(data);
-      resp.status(201).json(data); // Send a 201 Created status with the JSON response
-    } catch (error) {
-      console.error('Error saving post:', error);
-      resp.status(500).json({ message: 'Internal Server Error', error: error.message }); // Send a 500 Internal Server Error status with an error message
-    }
-  });
 
+
+
+
+app.post('/foundHub/addPost', async (req, resp) => {
+    console.log(req.body)
+    try {
+        let data = new foundHub(req.body);
+        data = await data.save();
+        console.log(data);
+        resp.status(201).json(data); // Send a 201 Created status with the JSON response
+    } catch (error) {
+        console.error('Error saving post:', error);
+        resp.status(500).json({ message: 'Internal Server Error', error: error.message }); // Send a 500 Internal Server Error status with an error message
+    }
+});
 
 
 // ============================================
@@ -167,7 +175,7 @@ app.get('/foundHub/foundPosts', async (req, resp) => {
 // FoundHub API for All Lost Items
 // ==================================
 app.get('/foundHub/lostPosts', async (req, resp) => {
-    let data = await foundHub.find({ $or: [{ status: 'Lost' }, { status: 'lost' }, { status: 'LOST' },{ status: 'LOST ' }, { status: 'lost ' }, { status: 'Lost ' }] })
+    let data = await foundHub.find({ $or: [{ status: 'Lost' }, { status: 'lost' }, { status: 'LOST' }, { status: 'LOST ' }, { status: 'lost ' }, { status: 'Lost ' }] })
     // console.log(data);
     if (data) {
         resp.send(data)
@@ -408,14 +416,15 @@ app.post('/announcement', async (req, resp) => {
 
         // Send an error response
         resp.status(500).send({
-            message: 'An error occurred while creating the announcement',});
+            message: 'An error occurred while creating the announcement',
+        });
     }
 })
 
 // ===================================
 // Add Announcement API
 // ===================================
-app.get('/fetchAnnouncements', async(req, resp) => {
+app.get('/fetchAnnouncements', async (req, resp) => {
     let data = await Announcement.find({})
     // console.log(data);
     resp.send(data)
@@ -424,8 +433,8 @@ app.get('/fetchAnnouncements', async(req, resp) => {
 // ===================================
 // DELETE Announcement API
 // ===================================
-app.delete('/deleteAnnouncement', async(req, resp) => {
-    let data = await Announcement.deleteOne({_id: req.body.inputId})
+app.delete('/deleteAnnouncement', async (req, resp) => {
+    let data = await Announcement.deleteOne({ _id: req.body.inputId })
     console.log(data);
     resp.send(data)
 })
