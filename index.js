@@ -11,7 +11,7 @@ const allTeams = require('./db/teamRegisterSchema')
 const teamSchedule = require('./db/scheduleSchema')
 const Announcement = require('./db/anouncementSchema')
 const cors = require('cors')
-const port = 5000;
+const port = process.env.PATH || 5000;
 const app = express();
 app.use(express.json())
 app.use(cors());
