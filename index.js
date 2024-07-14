@@ -23,7 +23,7 @@ app.use(cors());
 // server verification
 // ============================================
 app.get('/', (req, resp) => {
-    resp.send('Guide-Plus Server is running...!!!')
+    resp.send('Guide-Plus Server is running...')
 })
 // ============================================
 // Registration API
